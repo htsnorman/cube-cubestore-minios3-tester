@@ -1,0 +1,44 @@
+version: '3'
+services:
+  minio:
+    image: minio/minio
+    ports:
+      - "9002:9000"
+      - "19001:19001"
+    environment:
+      MINIO_ACCESS_KEY: nrmn123
+      MINIO_SECRET_KEY: minio123
+    command: server --console-address :19001 --quiet /data
+  cubestore_router:
+    image: cubejs/cubestore:non-avx
+    ports:
+      - "3306:3306"
+      - "3030:3030"
+      - "5432:5432"
+    environment:
+      - CUBESTORE_SERVER_NAME=cubestore_router:9999
+      - CUBESTORE_META_PORT=9999
+      - CUBESTORE_WORKERS=cubestore_worker_1:9001
+      - CUBESTORE_MINIO_BUCKET=demoapp
+      - CUBESTORE_MINIO_REGION=us-east-1
+      - CUBESTORE_MINIO_SERVER_ENDPOINT=http://minio:9000
+      - CUBESTORE_MINIO_ACCESS_KEY_ID=nrmn123
+      - CUBESTORE_MINIO_SECRET_ACCESS_KEY=minio123
+    depends_on:
+      - minio
+  cubestore_worker_1:
+    image: cubejs/cubestore:non-avx
+    environment:
+      - CUBESTORE_SERVER_NAME=cubestore_worker_1:9001
+      - CUBESTORE_WORKER_PORT=9001
+      - CUBESTORE_META_ADDR=cubestore_router:9999
+      - CUBESTORE_WORKERS=cubestore_worker_1:9001
+      - CUBESTORE_MINIO_BUCKET=demoapp
+      - CUBESTORE_MINIO_REGION=us-east-1
+      - CUBESTORE_MINIO_SERVER_ENDPOINT=http://minio:9000
+      - CUBESTORE_MINIO_ACCESS_KEY_ID=nrmn123
+      - CUBESTORE_MINIO_SECRET_ACCESS_KEY=minio123
+
+    depends_on:
+      - cubestore_router
+      - minio
