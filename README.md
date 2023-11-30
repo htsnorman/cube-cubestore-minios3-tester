@@ -83,7 +83,3 @@ MySQL [(none)]> select * from demoapp.demoapp;
 
 MySQL [(none)]>
 ```
-
-
-
-
