@@ -51,6 +51,7 @@ Query OK, 0 rows affected (0.020 sec)
 
 
 ## IF define minio subpath error dont appear:
+(commented line in compose)
 - CUBESTORE_MINIO_SUB_PATH=cubesubpath
 
 ```
