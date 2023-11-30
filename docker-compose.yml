@@ -24,6 +24,7 @@ services:
       - CUBESTORE_MINIO_SERVER_ENDPOINT=http://minio:9000
       - CUBESTORE_MINIO_ACCESS_KEY_ID=nrmn123
       - CUBESTORE_MINIO_SECRET_ACCESS_KEY=minio123
+      #- CUBESTORE_MINIO_SUB_PATH=cubesubpath
     depends_on:
       - minio
   cubestore_worker_1:
@@ -38,6 +39,7 @@ services:
       - CUBESTORE_MINIO_SERVER_ENDPOINT=http://minio:9000
       - CUBESTORE_MINIO_ACCESS_KEY_ID=nrmn123
       - CUBESTORE_MINIO_SECRET_ACCESS_KEY=minio123
+      #- CUBESTORE_MINIO_SUB_PATH=cubesubpath
 
     depends_on:
       - cubestore_router
